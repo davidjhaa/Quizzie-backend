@@ -1,10 +1,21 @@
 const express = require("express");
 const quizRouter = express.Router();
-const {getQuiz} = require("../controller/quizController")
+const {getQuiz, createQuiz, getQuizStats} = require("../controller/quizController")
+const {countAPICallsAndUpdateAnalytics } = require('../controller/analyticsController')
+const verifyAuth = require ('../middlewares/verifyAuth')
+
+quizRouter
+    .route('/number')
+    .get(getQuizStats)
+
 
 quizRouter
     .route('/:id')
-    .get(getQuiz)
+    .get(countAPICallsAndUpdateAnalytics, getQuiz)
 
+quizRouter.use(verifyAuth)
+quizRouter
+    .route('/createQuiz')
+    .post(createQuiz)
 
 module.exports = quizRouter;

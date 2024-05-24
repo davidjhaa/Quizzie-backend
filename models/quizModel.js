@@ -3,11 +3,11 @@ const { Schema } = mongoose;
 
 // Define the Question schema
 const questionSchema = new Schema({
-    qNumber : {
+    questionNumber : {
         type: Number,
         required : true,
     },
-    qName: {
+    questionText: {
         type: String,
         required: true,
     },
@@ -37,7 +37,7 @@ const quizSchema = new Schema(
         },
         optionType : {
             type: String,
-            enum: ["text", "image", "text+image"], 
+            enum: ["Text", "Image", "Text+Image"], 
             default: "text", 
             required: true,
         },

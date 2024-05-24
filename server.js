@@ -32,7 +32,7 @@ mongoose
 });
 
 app.use("/api/v1/auth", userRouter);
-app.use("/api/v1/quiz", quizRouter);
+app.use("/quiz", quizRouter);
 
 
 // // Create a new quiz with the timer field omitted
