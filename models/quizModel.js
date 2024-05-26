@@ -10,8 +10,17 @@ const questionSchema = new Schema({
         type: String,
         required: true,
     },
-    options: {
-        type: [String],
+    options:  {
+        type: [{
+            option: {
+                type: String,
+                required: true
+            },
+            count: {
+                type: Number,
+                default: 0
+            }
+        }],
         required: true,
     },
     correctOption: {
@@ -36,12 +45,12 @@ const quizSchema = new Schema(
         quizType: {
             type: String,
             required: true,
-            enum: ["Q&A", "poll"],
+            enum: ["Q&A", "Poll"],
         },
         optionType : {
             type: String,
             enum: ["Text", "Image", "Text+Image"], 
-            default: "text", 
+            default: "Text", 
             required: true,
         },
         timer: {

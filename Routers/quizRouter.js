@@ -5,16 +5,15 @@ const {countAPICallsAndUpdateAnalytics } = require('../controller/analyticsContr
 const verifyToken = require ('../middlewares/verifyAuth')
 
 quizRouter
-    .route('/:id')
-    .get(countAPICallsAndUpdateAnalytics, getQuiz)
-
-quizRouter.use(verifyToken)
-quizRouter
     .route('/stats')
-    .get(getQuizStats)
+    .get(verifyToken, getQuizStats)
 
 quizRouter
     .route('/createQuiz')
-    .post(createQuiz)
+    .post(verifyToken,createQuiz)
+
+quizRouter
+    .route('/:id')
+    .get(countAPICallsAndUpdateAnalytics, getQuiz)
 
 module.exports = quizRouter;
