@@ -82,12 +82,7 @@ const loginUser = async (req, res, next) => {
     }
 };
 
-const createQuiz = async (req, res) => {
-
-}
-
 module.exports = {
     registerUser,
     loginUser,
-    createQuiz,
 };

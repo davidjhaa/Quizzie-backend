@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-// Define the Question schema
 const questionSchema = new Schema({
     questionNumber : {
         type: Number,
@@ -20,12 +19,16 @@ const questionSchema = new Schema({
         required: true,
     }
 }, {
-    _id: false // Optionally disable _id generation for embedded documents
+    _id: false 
 });
 
-// Define the Quiz schema
+
 const quizSchema = new Schema(
     {
+        totalViews: {
+            type: Number,
+            default: 0,
+        },
         quizName: {
             type: String,
             required: true,
