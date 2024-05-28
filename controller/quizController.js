@@ -14,14 +14,13 @@ const createQuiz = async (req, res) => {
 
     await newQuiz.save();
 
-    const baseUrl = 'http://localhost:3001';
+    const baseUrl = "http://localhost:3001";
     const quizUrl = `${baseUrl}/quiz/${newQuiz._id}`;
 
     res
       .status(201)
       .json({ message: "Quiz created successfully!", quizUrl: quizUrl });
-  } 
-  catch (error) {
+  } catch (error) {
     console.error("Error creating quiz:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -35,10 +34,11 @@ const getQuiz = async (req, res, next) => {
     if (!quizDetails) {
       return res.status(404).json({ message: "Quiz not found" });
     }
+    quizDetails.totalViews += 1;
+    await quizDetails.save();
 
     res.status(200).json(quizDetails);
-  } 
-  catch (error) {
+  } catch (error) {
     next("error");
   }
 };
@@ -65,8 +65,36 @@ const getQuizStats = async (req, res) => {
   }
 };
 
+const postOptionSelected = async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    const { qnumber, selected } = req.body;
+    const quiz = await Quiz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    let options = quiz.questions[qnumber].options;
+
+    options.map((opt) => {
+      if (opt.option === selected) {
+        opt.count += 1;
+      }
+    });
+
+    await quiz.save();
+
+    res.status(200).json({ message: "Option count updated successfully" });
+  } 
+  catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getQuiz,
   createQuiz,
   getQuizStats,
+  postOptionSelected,
 };

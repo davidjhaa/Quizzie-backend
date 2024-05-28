@@ -1,19 +1,24 @@
 const express = require("express");
 const quizRouter = express.Router();
-const {getQuiz, createQuiz, getQuizStats} = require("../controller/quizController")
-const {countAPICallsAndUpdateAnalytics } = require('../controller/analyticsController')
+const {getQuiz, createQuiz, getQuizStats, postOptionSelected} = require("../controller/quizController")
 const verifyToken = require ('../middlewares/verifyAuth')
-
-quizRouter
-    .route('/stats')
-    .get(verifyToken, getQuizStats)
 
 quizRouter
     .route('/createQuiz')
     .post(verifyToken,createQuiz)
 
 quizRouter
+    .route('/stats')
+    .get(verifyToken, getQuizStats)
+
+quizRouter
+    .route('/analytics')
+    .get(verifyToken, getQuizStats)
+
+
+quizRouter
     .route('/:id')
-    .get(countAPICallsAndUpdateAnalytics, getQuiz)
+    .get(getQuiz)
+    .post(postOptionSelected)
 
 module.exports = quizRouter;
