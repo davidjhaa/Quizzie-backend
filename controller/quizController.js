@@ -65,6 +65,19 @@ const getQuizStats = async (req, res) => {
   }
 };
 
+const deleteQuiz= async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    await Quiz.findByIdAndDelete(quizId)
+    const quizzes = await Quiz.find({ refUserId: req.userId });
+
+    res.status(200).json(quizzes);
+    
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 const postOptionSelected = async (req, res) => {
   try {
     const quizId = req.params.id;
@@ -95,6 +108,8 @@ const postOptionSelected = async (req, res) => {
 module.exports = {
   getQuiz,
   createQuiz,
+  deleteQuiz,
   getQuizStats,
   postOptionSelected,
+
 };
