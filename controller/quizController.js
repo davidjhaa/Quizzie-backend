@@ -3,6 +3,10 @@ const Quiz = require("../models/quizModel");
 const createQuiz = async (req, res) => {
   try {
     const { Questions, optionType, quizName, quizType } = req.body;
+    console.log(Questions)
+    console.log(optionType)
+    console.log(quizName)
+    console.log(quizType)
 
     const newQuiz = new Quiz({
       quizName: quizName,
@@ -14,12 +18,9 @@ const createQuiz = async (req, res) => {
 
     await newQuiz.save();
 
-    const baseUrl = "http://localhost:3001";
-    const quizUrl = `${baseUrl}/quiz/${newQuiz._id}`;
-
     res
       .status(201)
-      .json({ message: "Quiz created successfully!", quizUrl: quizUrl });
+      .json({ message: "Quiz created successfully!", quizId: newQuiz._id });
   } catch (error) {
     console.error("Error creating quiz:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -62,6 +63,30 @@ const getQuizStats = async (req, res) => {
   } catch (error) {
     console.log("Error retrieving quiz stats:", error);
     return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const updateQuiz = async (req, res) => {
+  try {
+    const { Questions, quizId } = req.body;
+    console.log(quizId)
+
+    const updatedQuiz = await Quiz.findByIdAndUpdate(
+      quizId,
+      {
+        questions: Questions,
+      },
+      { new: true } 
+    );
+
+    if (!updatedQuiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    res.status(200).json({ message: "Quiz updated successfully!", quiz: updatedQuiz });
+  } catch (error) {
+    console.error("Error updating quiz:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -111,5 +136,5 @@ module.exports = {
   deleteQuiz,
   getQuizStats,
   postOptionSelected,
-
+  updateQuiz,
 };

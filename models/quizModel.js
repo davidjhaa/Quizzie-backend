@@ -25,15 +25,6 @@ const questionSchema = new Schema({
     },
     correctOption: {
         type: String,
-        validate: {
-            validator: function(value) {
-                if (this.parent().quizType === "Poll") {
-                    return value === null || value === undefined;
-                }
-                return value !== null && value !== undefined;
-            },
-            message: 'Correct option is required unless the quiz type is "Poll".'
-        }
     }
 }, {
     _id: false 

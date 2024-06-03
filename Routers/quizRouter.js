@@ -1,11 +1,15 @@
 const express = require("express");
 const quizRouter = express.Router();
-const {getQuiz, createQuiz, deleteQuiz, getQuizStats, postOptionSelected} = require("../controller/quizController")
+const {getQuiz, createQuiz, deleteQuiz, getQuizStats, postOptionSelected, updateQuiz} = require("../controller/quizController")
 const verifyToken = require ('../middlewares/verifyAuth')
 
 quizRouter
     .route('/createQuiz')
     .post(verifyToken,createQuiz)
+
+quizRouter
+    .route('/updateQuiz')
+    .patch(verifyToken,updateQuiz)
 
 quizRouter
     .route('/deleteQuiz/:id')
