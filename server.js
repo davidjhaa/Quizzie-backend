@@ -16,6 +16,8 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
